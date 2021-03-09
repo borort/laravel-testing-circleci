@@ -4,24 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function createUser(Request $request)
     {
+        
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
-        ]);        
+            'password' => 'required|string|confirmed',
+            'password_confirmation' => 'required|same:password'
+        ]);
+        
         
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);        
+            'password' => Hash::make($request->password)
+        ]);
         
-        $user->save();        
+        $user->save();
+        
         
         return response()->json([
             'message' => 'Successfully created user!'
