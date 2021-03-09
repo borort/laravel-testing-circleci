@@ -45,10 +45,10 @@ jobs:
           command: php artisan key:generate
 
       - run:
-        name: "Create database and run migration"
-        command: |
-          touch database/database.sqlite
-          php artisan migrate --env=testing
+          name: "Create database and run migration"
+          command: |
+            touch database/database.sqlite
+            php artisan migrate --env=testing
 
       # run tests with phpunit
       - run:
